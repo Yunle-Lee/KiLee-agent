@@ -13,7 +13,7 @@
   ██╔═██╗ ██║██║     ██╔══╝  ██╔══╝
   ██║  ██╗██║███████╗███████╗███████╗
   ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚══════╝
-        ◈ A G E N T  v0.2 ◈
+        ◈ A G E N T  v0.3 ◈
 ```
 
 ## Features / 功能
@@ -26,6 +26,8 @@
 | **Context compression** — auto-compresses long conversations to save tokens | **上下文压缩** — 长对话自动压缩，节省 Token |
 | **Multi-provider** — DeepSeek, OpenAI, Groq, OpenRouter, any OpenAI-compatible API | **多模型供应商** — 支持 DeepSeek / OpenAI / Groq / OpenRouter 等 |
 | **Rich terminal UI** — colored output, spinners, diff previews, banners | **丰富终端 UI** — 彩色输出、加载动效、差异预览、启动 Banner |
+| **Multi-platform gateway** — Telegram integration with full agent loop | **多平台网关** — Telegram 集成，完整 Agent 循环 |
+| **Risk-based approval** — auto / suggest / never modes via Rich panels | **风险审批系统** — 自动 / 建议 / 拒绝三种模式 |
 
 ## Quick Start / 快速开始
 
@@ -44,20 +46,24 @@ kilee setup
 
 - Python 3.10+
 - `openai`, `rich`, `click`, `prompt-toolkit`, `httpx`
-- `Pillow` (optional — needed for `kilee banner` command)
+- `Pillow` (optional — needed for `kilee banner` command, install via `pip install Pillow`)
+- `pytest`, `mypy`, `ruff` (optional — development)
 
 ## Usage / 使用
 
 ```
-kilee            Start interactive chat / 启动交互式对话
-kilee setup      Setup wizard / 配置向导
-kilee login      Set API key / 设置 API Key
-kilee logout     Clear API key / 清除 API Key
-kilee whoami     Show current config / 查看当前配置
-kilee doctor     Check dependencies / 检查依赖
-kilee settings   Show full config / 显示完整配置
-kilee approval   Set approval mode / 设置审批模式
-kilee banner     Generate ASCII banner from image / 生成启动 Banner
+kilee                        Start interactive chat / 启动交互式对话
+kilee setup                  Setup wizard / 配置向导
+kilee login                  Set API key / 设置 API Key
+kilee logout                 Clear API key / 清除 API Key
+kilee whoami                 Show current config / 查看当前配置
+kilee doctor                 Check dependencies / 检查依赖
+kilee settings               Show full config / 显示完整配置
+kilee approval [mode]        View / set approval mode / 设置审批模式
+kilee banner                  Generate ASCII banner from image / 生成启动 Banner
+kilee banner --set-default    Save banner as default on startup
+kilee gateway                 Start multi-platform gateway (Telegram etc.)
+kilee translate <text>       Convert natural language to shell command
 ```
 
 ### Slash Commands / 斜杠命令
@@ -90,6 +96,31 @@ Create a `KILEE.md` in your project root to give KiLee project-specific context:
 ```
 
 KiLee auto-loads this file on startup. Also supports `CLAUDE.md` and `AGENTS.md`.
+
+## Gateway / 多平台网关
+
+KiLee supports multi-platform messaging via a gateway architecture. Currently supports Telegram.
+
+```bash
+# Start Telegram gateway (token from env var or --telegram-token)
+export KILEE_TELEGRAM_TOKEN="your_bot_token"
+kilee gateway
+
+# Or inline
+kilee gateway --telegram-token "your_bot_token"
+```
+
+The gateway runs the full agent loop for each chat — tools, memory, approval, everything.
+
+### Gateway Commands
+
+| Command | Description |
+|---|---|
+| `/help` | Show available commands |
+| `/status` | Show model and approval mode |
+| `/new` | Reset conversation |
+| `/model` | Show active model |
+| `/approval auto\|suggest\|never` | Set approval mode |
 
 ## Configuration / 配置
 
@@ -126,9 +157,15 @@ kilee/
 ├── theme.py         # Visual theme / colors
 ├── tips.py          # Usage tips
 ├── setup.py         # First-run wizard
-├── approval.py      # Risk-based tool approval system
-├── banner.py        # Image-to-ASCII banner generator
-└── tools/
+    ├── approval.py      # Risk-based tool approval system
+    ├── banner.py        # Image-to-ASCII banner generator
+    ├── gateway/
+    │   ├── __init__.py
+    │   ├── base.py          # PlatformAdapter abstract class
+    │   ├── telegram.py      # Telegram Bot API adapter
+    │   ├── runner.py        # GatewayRunner multi-platform dispatcher
+    │   └── agent_session.py # Headless agent session for gateway
+    └── tools/
     ├── __init__.py       # Tool registry & dispatch
     ├── execute_bash.py   # Shell command execution
     ├── fs_read.py        # File / directory reading + search
