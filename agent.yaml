@@ -1,0 +1,34 @@
+spec_version: "0.1.0"
+name: kilee-agent
+version: 0.3.0
+description: >
+  KiLee is a DeepSeek-powered terminal AI agent that can read and write files,
+  execute shell commands, search the web, and remember information across sessions.
+  Designed as a portable, pip-installable CLI agent supporting DeepSeek, OpenAI,
+  Groq, OpenRouter, and any OpenAI-compatible API provider.
+license: MIT
+model:
+  preferred: deepseek:deepseek-chat
+  fallback:
+    - openai:gpt-4o
+    - openai:gpt-4o-mini
+runtime:
+  max_turns: 50
+  entrypoint: kilee
+skills:
+  - name: execute_bash
+    description: Execute shell commands in the current working directory
+  - name: fs_read
+    description: Read files, list directories, and search file contents
+  - name: fs_write
+    description: Create, edit, and append to files
+  - name: save_memory
+    description: Persist important user information and preferences across sessions
+  - name: web_search
+    description: Search the web for up-to-date information
+  - name: web_fetch
+    description: Fetch and extract text content from a given URL
+compliance:
+  risk_tier: standard
+  supervision:
+    human_in_the_loop: destructive
