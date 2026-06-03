@@ -188,3 +188,7 @@ pip install pytest mypy ruff
 ## License / 许可
 
 MIT
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Yunle-Lee/KiLee-agent&type=date&legend=top-left)](https://www.star-history.com/#Yunle-Lee/KiLee-agent&type=date&legend=top-left)
