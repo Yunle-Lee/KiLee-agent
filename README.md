@@ -1,3 +1,5 @@
+
+
 # KiLee Agent
 
 ![pic1](https://github.com/Yunle-Lee/Pics_of_all_my-projects/blob/main/bbc5aa3142acfb4610b515c15ebdfeaf.png)
@@ -157,15 +159,15 @@ kilee/
 ├── theme.py         # Visual theme / colors
 ├── tips.py          # Usage tips
 ├── setup.py         # First-run wizard
-    ├── approval.py      # Risk-based tool approval system
-    ├── banner.py        # Image-to-ASCII banner generator
-    ├── gateway/
-    │   ├── __init__.py
-    │   ├── base.py          # PlatformAdapter abstract class
-    │   ├── telegram.py      # Telegram Bot API adapter
-    │   ├── runner.py        # GatewayRunner multi-platform dispatcher
-    │   └── agent_session.py # Headless agent session for gateway
-    └── tools/
+├── approval.py      # Risk-based tool approval system
+├── banner.py        # Image-to-ASCII banner generator
+├── gateway/
+│   ├── __init__.py
+│   ├── base.py          # PlatformAdapter abstract class
+│   ├── telegram.py      # Telegram Bot API adapter
+│   ├── runner.py        # GatewayRunner multi-platform dispatcher
+│   └── agent_session.py # Headless agent session for gateway
+└── tools/
     ├── __init__.py       # Tool registry & dispatch
     ├── execute_bash.py   # Shell command execution
     ├── fs_read.py        # File / directory reading + search
